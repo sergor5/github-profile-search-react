@@ -1,20 +1,17 @@
-import { MoonIcon } from '@heroicons/react/solid';
-import { SunIcon } from '@heroicons/react/solid';
 import { useState } from 'react';
+import { DarkModeSwitch } from './ThemeSwitcher';
+import useDarkMode from '../hooks/useDarkMode';
 
 function ThemeToggle() {
-  const [theme, setTheme] = useState('light');
+  const [colorTheme, setTheme] = useDarkMode(true);
+  const [isDarkMode, setDarkMode] = useState(false);
 
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+  const toggleDarkMode = (checked) => {
+    setDarkMode(checked);
+    setTheme(checked);
   };
-  return (
-    <div>
-      <button className="w-10 h-10" onClick={toggleTheme}>
-        {theme === 'light' ? <MoonIcon /> : <SunIcon />}
-      </button>
-    </div>
-  );
+
+  return <DarkModeSwitch style={{ marginBottom: '2rem' }} checked={isDarkMode} onChange={toggleDarkMode} size={120} />;
 }
 
 export default ThemeToggle;

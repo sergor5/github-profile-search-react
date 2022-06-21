@@ -11,7 +11,7 @@ function ThemeToggle() {
     setTheme(checked);
   };
 
-  return <DarkModeSwitch style={{ marginBottom: '2rem' }} checked={isDarkMode} onChange={toggleDarkMode} size={120} />;
+  return <DarkModeSwitch checked={isDarkMode} onChange={toggleDarkMode} size={40} />;
 }
 
 export default ThemeToggle;

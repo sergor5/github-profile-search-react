@@ -23,6 +23,8 @@ function App() {
           )
       )
       .then((res) => res.json());
+    user['joined'] = new Date(user.created_at).toDateString(4, 10).slice(4, 15);
+
     setIsLoading(false);
     setUserData(user);
     console.log(userData);
@@ -35,12 +37,18 @@ function App() {
         <SearchInput onSearchSubmit={handleSearchSubmit} />
         {isLoading && <Card className="mt-4 ">Loading</Card>}
         {userData && (
-          <Card className="mt-4 ">
+          <Card className="mt-4 hover:-translate-y-0.5 active:translate-y-0">
             <Avatar imageURL={userData.avatar_url} />
-
-            <div>
-              <h1 className="font-bold text-2xl">{userData.name}</h1>
-              <span>@{userData.login}</span>
+            <div className="flex flex-grow justify-between px-3">
+              <div>
+                <h1 className="font-bold text-2xl">{userData.name}</h1>
+                <span className="font-bold underline">
+                  <a href={`https://github.com/${userData.login}`} target="_blank">
+                    @{userData.login}
+                  </a>
+                </span>
+              </div>
+              <div className="font-mono">Joined at: {userData.joined}</div>
             </div>
           </Card>
         )}

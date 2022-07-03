@@ -14,3 +14,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+svg:not(:root) {
+  overflow: hidden;
+}
+.Layout_custom-shape-bottom__fexMx {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: 1;
+}
+
+.Layout_custom-shape-bottom__fexMx svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 120px;
+}
+
+.Layout_shape-fill___0zGc{
+  fill: #5affb6;
+}

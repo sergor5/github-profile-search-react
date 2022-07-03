@@ -12,8 +12,8 @@ function App() {
   };
 
   return (
-    <div className="App h-full min-h-screen transition duration-500 dark:bg-cyan-800 ">
-      <div className="max-w-2xl mx-auto">
+    <div className="App h-full min-h-screen transition duration-500 dark:bg-cyan-800 grid place-items-center">
+      <div className="w-11/12 md:w-3/5">
         <Navbar />
         <SearchInput onSearchSubmit={handleSearchSubmit} />
         <Card className="mt-4">

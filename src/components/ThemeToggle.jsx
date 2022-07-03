@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DarkModeSwitch } from './ThemeSwitcher';
 import useDarkMode from '../hooks/useDarkMode';
 
 function ThemeToggle() {
   const [colorTheme, setTheme] = useDarkMode(true);
-  const [isDarkMode, setDarkMode] = useState(false);
+  const [isDarkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
 
   const toggleDarkMode = (checked) => {
     setDarkMode(checked);

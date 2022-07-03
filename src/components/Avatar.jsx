@@ -1,6 +1,6 @@
 function Avatar({ imageURL }) {
   return (
-    <div className="w-20 h-20 rounded-full ring-4 ring-green-500 ">
+    <div className="w-20 h-20 rounded-full ring-4 ring-green-500 overflow-hidden">
       <img src={imageURL} alt="Github profile avatar" />
     </div>
   );

@@ -4,7 +4,7 @@ import { useState } from 'react';
 function SearchInput({ onSearchSubmit }) {
   const [query, setQuery] = useState('');
   return (
-    <div className="flex space-x-5 mt-4">
+    <div className="flex justify-between space-x-5 mt-4">
       <SearchIcon className="w-8 h-8 dark:text-white transition hover:-translate-y-0.5 active:translate-y-0" />
       <input
         type="text"

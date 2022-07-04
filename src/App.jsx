@@ -4,6 +4,7 @@ import SearchInput from './components/SearchInput';
 import Avatar from './components/Avatar';
 import Card from './components/Card';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function App() {
   const [userData, setUserData] = useState(null);
@@ -31,29 +32,43 @@ function App() {
   };
 
   return (
-    <div className="App h-full min-h-screen transition duration-500 dark:bg-zinc-900">
-      <div className="w-11/12 md:w-3/5 mx-auto pt-48">
+    <div className="App h-full min-h-screen transition duration-500 dark:bg-zinc-900 ">
+      <motion.div
+        initial={{ opacity: 0, y: -15 }}
+        whileInView={{ opacity: 1, y: 0, transition: { ease: 'easeInOut', delay: 0.5, duration: 1 } }}
+        viewport={{ once: true }}
+        className="w-11/12 md:w-3/5 mx-auto pt-48"
+      >
         <Navbar />
         <SearchInput onSearchSubmit={handleSearchSubmit} />
         {isLoading && <Card className="mt-4 ">Loading</Card>}
-        {userData && (
-          <Card className="mt-4 hover:-translate-y-0.5 active:translate-y-0">
-            <Avatar imageURL={userData.avatar_url} />
-            <div className="flex flex-grow justify-between px-3">
-              <div>
-                <h1 className="font-bold text-2xl">{userData.name}</h1>
-                <span className="font-bold underline">
-                  <a href={`https://github.com/${userData.login}`} target="_blank">
-                    @{userData.login}
-                  </a>
-                </span>
-              </div>
-              <div className="font-mono">Joined at: {userData.joined}</div>
-            </div>
-          </Card>
-        )}
-      </div>
-      <div className="Layout_custom-shape-bottom__fexMx">
+        <AnimatePresence>
+          {userData && (
+            <motion.div initial={{ opacity: 0, y: -15 }} whileInView={{ opacity: 1, y: 0, transition: { ease: 'easeInOut', duration: 0.5 } }} exit={{ opacity: 0 }} viewport={{ once: true }}>
+              <Card className="mt-4 hover:-translate-y-0.5 active:translate-y-0">
+                <Avatar imageURL={userData.avatar_url} />
+                <div className="flex flex-grow justify-between px-3">
+                  <div>
+                    <h1 className="font-bold text-2xl">{userData.name}</h1>
+                    <span className="font-bold underline">
+                      <a href={`https://github.com/${userData.login}`} target="_blank">
+                        @{userData.login}
+                      </a>
+                    </span>
+                  </div>
+                  <div className="font-mono">Joined at: {userData.joined}</div>
+                </div>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, scaleY: 0, rotate: 180, transformOrigin: 'top' }}
+        whileInView={{ opacity: 1, scaleY: 1, rotate: 180, transition: { ease: 'easeInOut', delay: 0.85, duration: 1 } }}
+        viewport={{ once: true }}
+        className="Layout_custom-shape-bottom__fexMx"
+      >
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
           <path
             d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
@@ -70,7 +85,7 @@ function App() {
             className="Layout_shape-fill___0zGc"
           ></path>
         </svg>
-      </div>
+      </motion.div>
     </div>
   );
 }

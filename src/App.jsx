@@ -40,8 +40,7 @@ function App() {
         className="w-11/12 md:w-3/5 mx-auto pt-48"
       >
         <Navbar />
-        <SearchInput onSearchSubmit={handleSearchSubmit} />
-        {isLoading && <Card className="mt-4 ">Loading</Card>}
+        <SearchInput isSearching={isLoading} onSearchSubmit={handleSearchSubmit} />
         <AnimatePresence>
           {userData && (
             <motion.div initial={{ opacity: 0, y: -15 }} whileInView={{ opacity: 1, y: 0, transition: { ease: 'easeInOut', duration: 0.5 } }} exit={{ opacity: 0 }} viewport={{ once: true }}>

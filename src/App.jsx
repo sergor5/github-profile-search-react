@@ -9,12 +9,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 function App() {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasErrors, setHasErrors] = useState(false);
   const handleSearchSubmit = async (query) => {
     if (!query) return;
     console.log('Searching', query);
     setIsLoading(true);
     setUserData(null);
-    const user = await fetch(`https://api.github.com/users/${query}`)
+    setHasErrors(false);
+    await fetch(`https://api.github.com/users/${query}`)
       .then(
         (res) =>
           new Promise((resolve) =>
@@ -23,12 +25,21 @@ function App() {
             }, 1000)
           )
       )
-      .then((res) => res.json());
-    user['joined'] = new Date(user.created_at).toDateString(4, 10).slice(4, 15);
+      .then(async (res) => {
+        setIsLoading(false);
+        if (!res.ok) {
+          return Promise.reject(res);
+        }
 
-    setIsLoading(false);
-    setUserData(user);
-    console.log(userData);
+        res = await res.json();
+        res['joined'] = new Date(res.created_at).toDateString(4, 10).slice(4, 15);
+        setUserData(res);
+
+        return res;
+      })
+      .catch((err) => {
+        setHasErrors(true);
+      });
   };
 
   return (
@@ -40,7 +51,7 @@ function App() {
         className="w-11/12 md:w-3/5 mx-auto pt-48"
       >
         <Navbar />
-        <SearchInput isSearching={isLoading} onSearchSubmit={handleSearchSubmit} />
+        <SearchInput isSearching={isLoading} hasErrors={hasErrors} onSearchSubmit={handleSearchSubmit} />
         <AnimatePresence>
           {userData && (
             <motion.div initial={{ opacity: 0, y: -15 }} whileInView={{ opacity: 1, y: 0, transition: { ease: 'easeInOut', duration: 0.5 } }} exit={{ opacity: 0 }} viewport={{ once: true }}>

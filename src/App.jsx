@@ -42,33 +42,92 @@ function App() {
       });
   };
 
+  const profileContainerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+  const gridVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        delay: 0.3,
+        staggerChildren: 0.15,
+      },
+    },
+  };
+  const profileItemVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 },
+  };
+
   return (
-    <div className="App h-full min-h-screen transition duration-500 dark:bg-zinc-900 ">
+    <div className="App h-full min-h-screen transition duration-500 dark:bg-zinc-900 relative">
       <motion.div
         initial={{ opacity: 0, y: -15 }}
         whileInView={{ opacity: 1, y: 0, transition: { ease: 'easeInOut', delay: 0.5, duration: 1 } }}
         viewport={{ once: true }}
-        className="w-11/12 md:w-3/5 mx-auto pt-48"
+        className="w-11/12 md:w-3/5 mx-auto pt-32 relative z-10"
       >
         <Navbar />
         <SearchInput isSearching={isLoading} hasErrors={hasErrors} onSearchSubmit={handleSearchSubmit} />
         <AnimatePresence>
           {userData && (
-            <motion.div initial={{ opacity: 0, y: -15 }} whileInView={{ opacity: 1, y: 0, transition: { ease: 'easeInOut', duration: 0.5 } }} exit={{ opacity: 0 }} viewport={{ once: true }}>
-              <Card className="mt-4 hover:-translate-y-0.5 active:translate-y-0">
-                <Avatar imageURL={userData.avatar_url} />
-                <div className="flex flex-grow justify-between px-3">
-                  <div>
-                    <h1 className="font-bold text-2xl">{userData.name}</h1>
-                    <span className="font-bold underline">
-                      <a href={`https://github.com/${userData.login}`} target="_blank">
-                        @{userData.login}
-                      </a>
-                    </span>
+            <motion.div variants={profileContainerVariants} initial="hidden" animate="show" exit="hidden">
+              <motion.div variants={profileItemVariants}>
+                <Card className="mt-4 hover:-translate-y-0.5 active:translate-y-0">
+                  <Avatar imageURL={userData.avatar_url} />
+                  <div className="flex flex-grow justify-between px-3">
+                    <div>
+                      <h1 className="font-bold text-2xl">{userData.name}</h1>
+                      <span className="font-bold underline">
+                        <a href={`https://github.com/${userData.login}`} target="_blank">
+                          @{userData.login}
+                        </a>
+                      </span>
+                    </div>
+                    <div className="font-mono">Joined at: {userData.joined}</div>
                   </div>
-                  <div className="font-mono">Joined at: {userData.joined}</div>
+                </Card>
+              </motion.div>
+              {userData.bio && (
+                <motion.div variants={profileItemVariants}>
+                  <div className="mt-4 justify-center">
+                    <div className="font-mono ">
+                      <Card className="px-4 hover:-translate-y-0.5 active:translate-y-0">BIO: {userData.bio}</Card>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+              <motion.div variants={profileItemVariants}>
+                <div className="mt-4 justify-center">
+                  <motion.div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3 font-mono " variants={gridVariants}>
+                    <motion.div variants={profileItemVariants}>
+                      <Card className="flex flex-col items-center px-4  hover:-translate-y-0.5 active:translate-y-0">
+                        <h4 className="font-bold text-xl">Repos</h4>
+                        <p>{userData.public_repos}</p>
+                      </Card>
+                    </motion.div>
+                    <motion.div variants={profileItemVariants}>
+                      <Card className="flex flex-col items-center px-4  hover:-translate-y-0.5 active:translate-y-0">
+                        <h4 className="font-bold text-xl">Followers</h4>
+                        <p>{userData.followers}</p>
+                      </Card>
+                    </motion.div>
+                    <motion.div variants={profileItemVariants}>
+                      <Card className="flex flex-col items-center px-4  hover:-translate-y-0.5 active:translate-y-0">
+                        <h4 className="font-bold text-xl">Following</h4>
+                        <p>{userData.following}</p>
+                      </Card>
+                    </motion.div>
+                  </motion.div>
                 </div>
-              </Card>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -77,7 +136,7 @@ function App() {
         initial={{ opacity: 0, scaleY: 0, rotate: 180, transformOrigin: 'top' }}
         whileInView={{ opacity: 1, scaleY: 1, rotate: 180, transition: { ease: 'easeInOut', delay: 0.85, duration: 1 } }}
         viewport={{ once: true }}
-        className="Layout_custom-shape-bottom__fexMx"
+        className="Layout_custom-shape-bottom__fexMx  z-0"
       >
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
           <path
